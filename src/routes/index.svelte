@@ -3,6 +3,11 @@
 	import email from '/src/images/email.svg';
 </script>
 
+<svelte:head>
+	<title>Justin Gottshall</title>
+	<meta name="description" content="Justin Gottshall is a web developer from Cleveland, Ohio" />
+</svelte:head>
+
 <div class="flex items-center justify-center h-screen">
 	<div class="inline-block tracking-wide text-center text-zinc-800">
 		<h1 class="mb-2 text-4xl font-semibold tracking-wide sm:text-7xl">Justin Gottshall</h1>
@@ -12,10 +17,22 @@
 			</p>
 			<div class="inline-flex mt-4 sm:mt-0">
 				<a href="https://github.com/jmg8766" target="_blank" rel="noopener noreferrer">
-					<img class="h-12 sm:ml-2 sm:h-8 hover:animate-spin" alt="Github" src={github} />
+					<img
+						class="h-12 sm:ml-2 sm:h-8 hover:animate-spin"
+						width={32}
+						height={32}
+						alt="Github"
+						src={github}
+					/>
 				</a>
 				<a href="mailto:justin.gottshall@gmail.com" target="_blank" rel="noopener noreferrer">
-					<img class="h-12 ml-4 sm:ml-2 sm:h-8 hover:animate-spin" alt="Email" src={email} />
+					<img
+						class="h-12 ml-4 sm:ml-2 sm:h-8 hover:animate-spin"
+						width={32}
+						height={32}
+						alt="Email"
+						src={email}
+					/>
 				</a>
 			</div>
 		</div>
