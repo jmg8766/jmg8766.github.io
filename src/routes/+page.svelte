@@ -2,7 +2,6 @@
 	<title>Justin Gottshall</title>
 	<meta name="description" content="Justin Gottshall is a web developer from Cleveland, Ohio" />
 </svelte:head>
-
 <div class="flex items-center justify-center h-screen">
 	<div class="inline-block tracking-wide text-center text-zinc-800">
 		<h1 class="mb-2 text-5xl font-semibold tracking-wide sm:text-7xl">Justin Gottshall</h1>
@@ -29,9 +28,3 @@
 		</div>
 	</div>
 </div>
-
-<style global>
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
-</style>
