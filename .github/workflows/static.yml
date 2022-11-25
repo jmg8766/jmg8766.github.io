@@ -29,12 +29,11 @@ jobs:
       - uses: actions/configure-pages@v2
         with:
           static_site_generator: sveltekit
-          generator_config_file: './svelte.config.ts'
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-pages-artifact@v1
         with:
-          path: './.svelte-kit'
+          path: './build'
 
   deploy:
     runs-on: ubuntu-latest
