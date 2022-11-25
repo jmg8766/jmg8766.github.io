@@ -32,7 +32,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Deploy?
-        run: npx gh-pages -d build -t true
+        run: npx gh-pages -d ./build -t true
       # - name: Setup Pages
       #   uses: actions/configure-pages@v2
       # - name: Upload artifact
