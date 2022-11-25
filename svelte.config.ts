@@ -6,10 +6,10 @@ const config = {
 	preprocess: preprocess({ postcss: true }),
 	kit: {
 		adapter: adapter(),
-		inlineStyleThreshold: Infinity
-		// paths: {
-		// 	base: process.env.NODE_ENV === "production" ? "/personal-site" : "",
-		// }
+		inlineStyleThreshold: Infinity,
+		paths: {
+			base: process.env.NODE_ENV === 'production' ? '/personal-site' : ''
+		}
 	}
 };
 
