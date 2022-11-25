@@ -29,6 +29,7 @@ jobs:
       - uses: actions/configure-pages@v2
         with:
           static_site_generator: sveltekit
+          generator_config_file: './svelte.config.ts'
       - run: npm ci
       - run: npm run build
       # - name: Upload artifact
