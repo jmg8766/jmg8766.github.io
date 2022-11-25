@@ -32,11 +32,13 @@ jobs:
           generator_config_file: './svelte.config.ts'
       - run: npm ci
       - run: npm run build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: './.svelte-kit'
 
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
