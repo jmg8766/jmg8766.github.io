@@ -5,7 +5,7 @@ const config: PlaywrightTestConfig = {
 		command: 'npm run build && npm run preview',
 		port: 4173
 	},
-	reporter: 'html'
+	reporter: process.env.CI ? 'dot' : 'list'
 };
 
 export default config;
