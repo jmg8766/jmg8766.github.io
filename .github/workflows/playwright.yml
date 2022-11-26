@@ -17,12 +17,16 @@ jobs:
       #     node-version: 18
       #     cache: 'npm'
       - uses: actions/cache@v3
-        id: cache-nodemodules
+        id: nodemodules
         env:
           cache-name: node-modules
         with:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - run: npm i && npx playwright install --with-deps
         if: steps.nodemodules.outputs.cache-hit != 'true'
       - run: npx playwright test
