@@ -14,7 +14,7 @@ jobs:
       #   with:
       #     node-version: 18
       #     cache: 'npm'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: cache-nodemodules
         env:
           cache-name: cache-node-modules
