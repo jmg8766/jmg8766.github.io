@@ -14,8 +14,7 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - run: npm ci
-      # - run: npx playwright install --with-deps
+      - run: npm i
       - run: npx playwright test
       - uses: actions/upload-artifact@v3
         if: always()
