@@ -7,14 +7,27 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.28.0-focal
+    # container: mcr.microsoft.com/playwright:v1.28.0-focal
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18
+      #     cache: 'npm'
+      - uses: actions/cache@v2
+        id: cache-nodemodules
+        env:
+          cache-name: cache-node-modules
         with:
-          node-version: 18
-          cache: 'npm'
-      - run: npm i
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - run: npm ci
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
       - run: npx playwright test
       - uses: actions/upload-artifact@v3
         if: always()
