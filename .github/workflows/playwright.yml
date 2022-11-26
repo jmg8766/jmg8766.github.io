@@ -7,8 +7,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      PLAYWRIGHT_BROWSERS_PATH: 0
     # container: mcr.microsoft.com/playwright:v1.28.0-focal
     steps:
       - uses: actions/checkout@v3
@@ -17,7 +15,7 @@ jobs:
       #     node-version: 18
       #     cache: 'npm'
       - uses: actions/cache@v3
-        id: nodemodules
+        id: cache-nodemodules
         env:
           cache-name: node-modules
         with:
@@ -27,8 +25,15 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - run: npm i && npx playwright install --with-deps
-        if: steps.nodemodules.outputs.cache-hit != 'true'
+      - run: npm i
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+      - uses: actions/cache@v3
+        id: cache-playwright
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ npm -v playwright }}
+      - run: npx playwright install --with-deps
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
       - run: npx playwright test
       - uses: actions/upload-artifact@v3
         if: always()
