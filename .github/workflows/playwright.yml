@@ -23,9 +23,8 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
-      - name: install
+      - run: npm ci && npx playwright install --with-deps
         if: steps.nodemodules.outputs.cache-hit != 'true'
-        run: npm ci && npx playwright install --with-deps
       - run: npx playwright test
       - uses: actions/upload-artifact@v3
         if: always()
