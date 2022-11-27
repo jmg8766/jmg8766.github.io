@@ -7,13 +7,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    # container: mcr.microsoft.com/playwright:v1.28.0-focal
     steps:
       - uses: actions/checkout@v3
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18
-      #     cache: 'npm'
       - uses: actions/cache@v3
         id: cache-nodemodules
         env:
@@ -31,7 +26,7 @@ jobs:
         id: cache-playwright
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ npm -v playwright }}
+          key: playwright-${{ hashFiles('node_modules/playwright-core/package.json') }}
       - run: npx playwright install --with-deps
         if: steps.cache-playwright.outputs.cache-hit != 'true'
       - run: npx playwright test
