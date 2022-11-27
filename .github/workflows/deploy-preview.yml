@@ -2,6 +2,7 @@ name: Deploy PR preview
 concurrency: preview-${{ github.ref }}
 permissions:
   contents: write
+  pull-requests: write
 on:
   pull_request:
     types:
