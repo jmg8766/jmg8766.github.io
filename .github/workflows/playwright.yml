@@ -12,11 +12,7 @@ jobs:
           node-version: '18'
           cache: 'npm'
       - run: npm ci
-      - run: npm run build
       - run: npx playwright test
-      - uses: rossjrw/pr-preview-action@v1
-        with:
-          source-dir: ./build/
       - uses: actions/upload-artifact@v3
         if: always()
         with:
