@@ -3,13 +3,13 @@ concurrency: preview-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
-on:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - closed
+# on:
+#   pull_request:
+#     types:
+#       - opened
+#       - reopened
+#       - synchronize
+#       - closed
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
