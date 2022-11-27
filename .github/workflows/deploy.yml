@@ -42,14 +42,16 @@ concurrency:
 
 jobs:
   build:
-    - uses: actions/checkout@v3
-    - uses: actions/configure-pages@v2
-      # with:
-      #   static_site_generator: sveltekit
-    - run: npm ci && npm run build
-    - uses: actions/upload-pages-artifact@v1
-      with:
-        path: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/configure-pages@v2
+        # with:
+        #   static_site_generator: sveltekit
+      - run: npm ci && npm run build
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: build
 
   # Single deploy job since we're just deploying
   deploy:
