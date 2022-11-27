@@ -8,7 +8,7 @@
 		<h1 class="mb-2 text-5xl font-semibold tracking-wide sm:text-7xl">Justin Gottshall</h1>
 		<div class="items-center justify-center sm:h-8 sm:flex">
 			<p class="text-2xl font-thin tracking-wide sm:inline-block sm:text-4xl">
-				Dev at
+				Developer at
 				<a
 					href="https://trustle.com/"
 					class="font-light underline underline-offset-8 decoration-dashed hover:decoration-solid"
