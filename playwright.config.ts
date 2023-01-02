@@ -5,7 +5,7 @@ const config: PlaywrightTestConfig = {
 		command: 'npm run build && npm run preview',
 		port: 4173
 	},
-	reporter: process.env.CI ? 'html' : 'list',
+	reporter: process.env.CI ? 'junit' : 'list',
 	projects: [
 		{ name: 'chromium', use: { ...devices['Desktop Chrome'] } },
 		{ name: 'firefox', use: { ...devices['Desktop Firefox'] } },

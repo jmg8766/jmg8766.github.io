@@ -1,16 +1,30 @@
 on:
   pull_request:
     branches: [master]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/playwright:v1.29.1-focal
     steps:
       - uses: actions/checkout@v3
-      - run: npm ci && npx playwright test
+      - run: npm ci
+      - run: npx playwright test
+        env:
+          PLAYWRIGHT_JUNIT_OUTPUT_NAME: results.xml
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          name: test-results
+          path: results.xml
+
+  report:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: dorny/test-reporter@v1
+        with:
+          artifact: test-results
+          name: Tests
+          path: '*.xml'
+          reporter: jest-junit
