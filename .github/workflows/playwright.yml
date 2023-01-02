@@ -12,8 +12,7 @@ jobs:
       - run: npx playwright test
         env:
           PLAYWRIGHT_JUNIT_OUTPUT_NAME: results.xml
-      - uses: dorny/test-reporter@v1
+      - uses: mikepenz/action-junit-report@v3
+        if: always()
         with:
-          name: Tests
-          path: results.xml
-          reporter: jest-junit
+          report_paths: 'results.xml'
