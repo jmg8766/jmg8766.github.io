@@ -1,10 +1,44 @@
+<script>
+	const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+	let contactFormOpen = true;
+	let email = '';
+	let message = '';
+	let formSubmissionStatus /** @type 'idle' | 'submitting' | 'success' */ = 'idle';
+
+	function toggleContactFormOpen() {
+		if (formSubmissionStatus === 'idle') {
+			contactFormOpen = !contactFormOpen;
+		}
+	}
+
+	async function submitContactForm(/** @type SubmitEvent & {target: HTMLFormElement} */ e) {
+		if (formSubmissionStatus !== 'idle') return;
+
+		formSubmissionStatus = 'submitting';
+
+		// display a loading indicator for at least 1 second
+		await Promise.all([
+			fetch('https://formspree.io/f/mgebrjjj', {
+				method: 'POST',
+				body: new FormData(e.target),
+				headers: { Accept: 'application/json' }
+			}),
+			new Promise((r) => setTimeout(() => r(''), 1000))
+		]);
+
+		formSubmissionStatus = 'success';
+		// close form after 1 second
+		setTimeout(() => (contactFormOpen = false), 1000);
+	}
+</script>
+
 <svelte:head>
 	<title>Justin Gottshall</title>
 	<meta name="description" content="Justin Gottshall is a web developer from Cleveland, Ohio" />
 </svelte:head>
 
-<div class="flex items-center justify-center h-screen">
-	<div class="inline-block tracking-wide text-center text-zinc-800">
+<div class="flex items-center justify-center h-screen text-zinc-800">
+	<div class="relative inline-block tracking-wide text-center">
 		<h1 class="mb-2 text-5xl font-semibold tracking-wide sm:text-7xl">Justin Gottshall</h1>
 		<div class="items-center justify-center sm:h-8 sm:flex">
 			<p class="text-2xl font-thin tracking-wide sm:inline-block sm:text-4xl">
@@ -18,7 +52,7 @@
 					Trustle
 				</a>
 			</p>
-			<div class="inline-flex mt-8 sm:mt-0">
+			<div class="inline-flex mt-8 sm:mt-0 z-10">
 				<a class="sm:ml-4" href="https://github.com/jmg8766" rel="noopener noreferrer">
 					<svg class="w-12 hover:animate-spin sm:w-8" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
 						<title>Github</title>
@@ -27,15 +61,110 @@
 						/>
 					</svg>
 				</a>
-				<a class="ml-4" href="mailto:justin.gottshall@gmail.com" rel="noopener noreferrer">
-					<svg class="w-12 sm:w-8 hover:animate-spin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-						<title>Email</title>
+				<button
+					class="ml-4 relative z-10 disabled:opacity-10"
+					on:click={toggleContactFormOpen}
+					disabled={formSubmissionStatus !== 'idle'}
+				>
+					<svg
+						class={`w-12 sm:w-8 ${formSubmissionStatus === 'idle' ? 'hover:animate-spin' : ''}`}
+						viewBox="0 0 448 512"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<title>Contact</title>
 						<path
 							d="M400 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM178.117 262.104C87.429 196.287 88.353 196.121 64 177.167V152c0-13.255 10.745-24 24-24h272c13.255 0 24 10.745 24 24v25.167c-24.371 18.969-23.434 19.124-114.117 84.938-10.5 7.655-31.392 26.12-45.883 25.894-14.503.218-35.367-18.227-45.883-25.895zM384 217.775V360c0 13.255-10.745 24-24 24H88c-13.255 0-24-10.745-24-24V217.775c13.958 10.794 33.329 25.236 95.303 70.214 14.162 10.341 37.975 32.145 64.694 32.01 26.887.134 51.037-22.041 64.72-32.025 61.958-44.965 81.325-59.406 95.283-70.199z"
 						/>
 					</svg>
-				</a>
+					<svg class={`absolute z-20 transition-all ${contactFormOpen ? '' : 'opacity-0'}`} viewBox="0 0 100 100">
+						<polygon
+							class={`transition-all ${contactFormOpen ? '' : 'opacity-0'} ${
+								formSubmissionStatus !== 'idle' ? 'opacity-10' : ''
+							}`}
+							points="50 15, 100 100, 0 100"
+						/>
+					</svg>
+					<svg class="absolute z-30" viewBox="0 0 100 100">
+						<polygon fill="white" points="50 25, 95 100, 5 100" />
+					</svg>
+				</button>
 			</div>
 		</div>
+		<form
+			class={`${contactFormOpen ? '' : 'opacity-0'} relative transition-all`}
+			id="contact-form"
+			on:submit|preventDefault={submitContactForm}
+		>
+			<div
+				class={`border-2 border-black rounded mt-10 sm:mt-8 p-6 flex flex-col w-full z-0 ${
+					formSubmissionStatus !== 'idle' ? 'opacity-10' : ''
+				}`}
+			>
+				<h2 class="font-semibold text-3xl mb-4 border-b-2 border-gray-900 px-4 pb-2 mx-auto tracking-wide">
+					Contact Me
+				</h2>
+				<label class="mb-2 text-left uppercase font-bold" for="email">Email: </label>
+				<input
+					class="border border-black rounded p-2 pl-4 mb-4 "
+					id="email"
+					name="email"
+					type="text"
+					placeholder="Your email"
+					bind:value={email}
+				/>
+				<label class="mb-2 text-left uppercase font-bold" for="msg">Message: </label>
+				<textarea
+					class="border border-black h-48 mb-4 p-2 rounded"
+					id="msg"
+					name="message"
+					placeholder="Your message"
+					bind:value={message}
+				/>
+				<button
+					class="p-2 rounded border-2 border-black w-32 ml-auto uppercase disabled:cursor-not-allowed flex justify-center"
+					type="submit"
+					disabled={email.length === 0 ||
+						!email.match(validEmailRegex) ||
+						message.length === 0 ||
+						formSubmissionStatus !== 'idle'}
+				>
+					{#if formSubmissionStatus === 'idle'}
+						Send
+					{:else if formSubmissionStatus === 'submitting'}
+						<span>Sending</span>
+						<span class="overflow-hidden whitespace-nowrap animate-typing">...</span>
+					{:else}
+						<span class="mr-2">Sent</span>
+					{/if}
+				</button>
+			</div>
+			{#if formSubmissionStatus !== 'idle'}
+				<div class="absolute inset-0 flex justify-center items-center">
+					{#if formSubmissionStatus === 'success'}
+						<svg class="ml-2" width="64" height="64" viewBox="0 0 24 24" fill="green">
+							<path
+								d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.393 7.5l-5.643 5.784-2.644-2.506-1.856 1.858 4.5 4.364 7.5-7.643-1.857-1.857z"
+							/>
+						</svg>
+					{:else}
+						<svg
+							class="animate-spin"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							width="64"
+							height="64"
+							viewBox="0 0 24 24"
+						>
+							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+							<path
+								class="opacity-75"
+								fill="currentColor"
+								d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+							/>
+						</svg>
+					{/if}
+				</div>
+			{/if}
+		</form>
 	</div>
 </div>
