@@ -1,11 +1,17 @@
-name: 'test'
 on: [pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.29.1-focal
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - run: npm ci
       - run: npx playwright install --with-deps
-      - run: npm t
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results
+          path: test-results
