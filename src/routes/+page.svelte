@@ -46,12 +46,12 @@
 			<p class="text-2xl font-thin tracking-wide sm:inline-block sm:text-4xl">
 				Developer at
 				<a
-					href="https://trustle.com/"
+					href="https://www.sherwin-williams.com/"
 					class="font-light underline underline-offset-8 decoration-dashed hover:decoration-solid"
 					rel="noreferrer"
 					target="_blank"
 				>
-					Trustle
+					Sherwin Williams
 				</a>
 			</p>
 			<div class="inline-flex mt-8 sm:mt-0 z-10">
