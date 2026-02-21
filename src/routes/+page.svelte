@@ -1,9 +1,11 @@
 <script>
+	import { preventDefault } from 'svelte/legacy';
+
 	const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-	let contactFormOpen = true;
-	let email = '';
-	let message = '';
-	let formSubmissionStatus /** @type 'idle' | 'submitting' | 'success' */ = 'idle';
+	let contactFormOpen = $state(true);
+	let email = $state('');
+	let message = $state('');
+	let formSubmissionStatus /** @type 'idle' | 'submitting' | 'success' */ = $state('idle');
 
 	function toggleContactFormOpen() {
 		if (formSubmissionStatus === 'idle') {
@@ -63,7 +65,7 @@
 				</a>
 				<button
 					class="ml-4 relative z-10 disabled:opacity-10"
-					on:click={toggleContactFormOpen}
+					onclick={toggleContactFormOpen}
 					disabled={formSubmissionStatus !== 'idle'}
 				>
 					<svg
@@ -93,7 +95,7 @@
 		<form
 			class={`${contactFormOpen ? '' : 'opacity-0'} relative transition-all`}
 			id="contact-form"
-			on:submit|preventDefault={submitContactForm}
+			onsubmit={preventDefault(submitContactForm)}
 		>
 			<div
 				class={`border-2 border-black rounded mt-10 sm:mt-8 p-6 flex flex-col w-full z-0 ${
@@ -119,7 +121,7 @@
 					name="message"
 					placeholder="Your message"
 					bind:value={message}
-				/>
+				></textarea>
 				<button
 					class="p-2 rounded border-2 border-black w-32 ml-auto uppercase disabled:cursor-not-allowed flex justify-center"
 					type="submit"
