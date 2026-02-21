@@ -119,7 +119,7 @@
 					name="message"
 					placeholder="Your message"
 					bind:value={message}
-				/>
+				></textarea>
 				<button
 					class="p-2 rounded border-2 border-black w-32 ml-auto uppercase disabled:cursor-not-allowed flex justify-center"
 					type="submit"
