@@ -107,7 +107,7 @@
 				</h2>
 				<label class="mb-2 text-left uppercase font-bold" for="email">Email: </label>
 				<input
-					class="border border-black rounded p-2 pl-4 mb-4"
+					class="border border-black rounded-sm p-2 pl-4 mb-4"
 					id="email"
 					name="email"
 					type="text"
@@ -116,14 +116,14 @@
 				/>
 				<label class="mb-2 text-left uppercase font-bold" for="msg">Message: </label>
 				<textarea
-					class="border border-black h-48 mb-4 p-2 rounded"
+					class="border border-black h-48 mb-4 p-2 rounded-sm"
 					id="msg"
 					name="message"
 					placeholder="Your message"
 					bind:value={message}
 				></textarea>
 				<button
-					class="p-2 rounded border-2 border-black w-32 ml-auto uppercase disabled:cursor-not-allowed flex justify-center"
+					class="p-2 rounded-sm border-2 border-black w-32 ml-auto uppercase disabled:cursor-not-allowed flex justify-center"
 					type="submit"
 					disabled={email.length === 0 ||
 						!email.match(validEmailRegex) ||
